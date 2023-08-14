@@ -22,7 +22,9 @@ namespace ConsoleXO
         private static void CheckWinner()
         {
             /*TODO
-            check if there is a winner on the board, either declaratively or recursively (more complex)
+            check if there is a winner on the board
+            either a row,column or diagonal of length 3 have the same simbol, X or O
+            this can be done either declaratively or recursively (more complex)
             */
         }
 
