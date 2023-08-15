@@ -7,26 +7,58 @@ namespace ConsoleXO
         public static char[,] gameBoard = new char[,] { { '.', '.', '.' }, { '.', '.', '.' }, { '.', '.', '.' } };
         public void StartGame()
         {
-            bool winner = false;
+            short numOfTurns = 0;
             bool turn = true;
             ShowBoard();
-            while (!winner)
+            while (numOfTurns < 9) // end the game if all turns were played and no winner has been declared
             {
+                if (numOfTurns >= 5)
+                {
+                    if (CheckWinner())
+                    {
+                        Console.WriteLine($"The winner is: {(!turn ? 'X' : 'O')}"); // if there is a winner, its the player who played before the current turn
+                        break;
+                    }
+                }
+                numOfTurns++;
                 int[] userInput = GetCoordenates(turn ? 'X' : 'O');
                 gameBoard[userInput[0], userInput[1]] = turn ? 'X' : 'O';
                 turn = !turn;
                 ShowBoard();
             }
+            Console.WriteLine("Its a draw!");
         }
 
-        private static void CheckWinner()
+        private static bool CheckWinner()
         {
-            /*TODO
-            check if there is a winner on the board
-            either a row,column or diagonal of length 3 have the same simbol, X or O
-            this can be done either declaratively or recursively (more complex)
-            */
+            // Rows check
+            for (int i = 0; i < 3; i++)
+            {
+                if (gameBoard[i, 0] == gameBoard[i, 1] && gameBoard[i, 1] == gameBoard[i, 2] && gameBoard[i, 0] != '.')
+                {
+                    return true;
+                }
+            }
+
+            // Columns check
+            for (int i = 0; i < 3; i++)
+            {
+                if (gameBoard[0, i] == gameBoard[1, i] && gameBoard[1, i] == gameBoard[2, i] && gameBoard[0, i] != '.')
+                {
+                    return true;
+                }
+            }
+
+            // Diagonals check
+            if ((gameBoard[0, 0] == gameBoard[1, 1] && gameBoard[1, 1] == gameBoard[2, 2] && gameBoard[0, 0] != '.') ||
+                (gameBoard[0, 2] == gameBoard[1, 1] && gameBoard[1, 1] == gameBoard[2, 0] && gameBoard[0, 2] != '.'))
+            {
+                return true;
+            }
+
+            return false;
         }
+
 
         private static bool IsPlaceAvailable(int x, int y)
         {
@@ -35,7 +67,7 @@ namespace ConsoleXO
                 return true;
             }
             Console.Clear();
-            Console.WriteLine("This position is already taken, please choose another one. Press any key to continue:");
+            Console.WriteLine($"This position ({x + 1},{y + 1}) is already taken, please choose another one. Press any key to continue:");
             Console.ReadKey();
             return false;
         }
