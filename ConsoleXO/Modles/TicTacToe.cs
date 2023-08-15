@@ -10,8 +10,12 @@ namespace ConsoleXO
             short numOfTurns = 0;
             bool turn = true;
             ShowBoard();
-            while (numOfTurns < 9) // end the game if all turns were played and no winner has been declared
+            while (numOfTurns <= 9) // end the game if all turns were played and no winner has been declared
             {
+                int[] userInput = GetCoordenates(turn ? 'X' : 'O');
+                gameBoard[userInput[0], userInput[1]] = turn ? 'X' : 'O';
+                turn = !turn;
+                ShowBoard();
                 if (numOfTurns >= 5)
                 {
                     if (CheckWinner())
@@ -19,14 +23,14 @@ namespace ConsoleXO
                         Console.WriteLine($"The winner is: {(!turn ? 'X' : 'O')}"); // if there is a winner, its the player who played before the current turn
                         break;
                     }
+                    else if (numOfTurns == 9)
+                    {
+                        Console.WriteLine("Its a draw!");
+                        break;
+                    }
                 }
                 numOfTurns++;
-                int[] userInput = GetCoordenates(turn ? 'X' : 'O');
-                gameBoard[userInput[0], userInput[1]] = turn ? 'X' : 'O';
-                turn = !turn;
-                ShowBoard();
             }
-            Console.WriteLine("Its a draw!");
         }
 
         private static bool CheckWinner()
