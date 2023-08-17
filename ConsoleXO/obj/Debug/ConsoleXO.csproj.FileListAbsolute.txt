@@ -12,3 +12,10 @@ C:\Users\max25\Documents\GitHub\SelaProjects\ConsoleXO\obj\Debug\ConsoleXO.pdb
 C:\Users\max25\Documents\GitHub\SelaProjects\ConsoleXO\bin\Debug\ConsoleXO.exe.config
 C:\Users\max25\Documents\GitHub\SelaProjects\ConsoleXO\bin\Debug\ConsoleXO.exe
 C:\Users\max25\Documents\GitHub\SelaProjects\ConsoleXO\bin\Debug\ConsoleXO.pdb
+C:\Users\max25\GitHub\SelaProjects\ConsoleXO\bin\Debug\ConsoleXO.exe.config
+C:\Users\max25\GitHub\SelaProjects\ConsoleXO\bin\Debug\ConsoleXO.exe
+C:\Users\max25\GitHub\SelaProjects\ConsoleXO\bin\Debug\ConsoleXO.pdb
+C:\Users\max25\GitHub\SelaProjects\ConsoleXO\obj\Debug\ConsoleXO.csproj.AssemblyReference.cache
+C:\Users\max25\GitHub\SelaProjects\ConsoleXO\obj\Debug\ConsoleXO.csproj.CoreCompileInputs.cache
+C:\Users\max25\GitHub\SelaProjects\ConsoleXO\obj\Debug\ConsoleXO.exe
+C:\Users\max25\GitHub\SelaProjects\ConsoleXO\obj\Debug\ConsoleXO.pdb

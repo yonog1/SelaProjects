@@ -10,9 +10,17 @@ namespace ConsoleXO
             short numOfTurns = 0;
             bool turn = true;
             ShowBoard();
+<<<<<<< HEAD
             bool winnerFound = false; // Flag to track if a winner has been found
             while (numOfTurns < 9)
+=======
+            while (numOfTurns <= 9) // end the game if all turns were played and no winner has been declared
+>>>>>>> 623cc86fc3f42f4cfdb0b3aee6dac27126ff0b40
             {
+                int[] userInput = GetCoordenates(turn ? 'X' : 'O');
+                gameBoard[userInput[0], userInput[1]] = turn ? 'X' : 'O';
+                turn = !turn;
+                ShowBoard();
                 if (numOfTurns >= 5)
                 {
                     if (CheckWinner())
@@ -21,18 +29,22 @@ namespace ConsoleXO
                         winnerFound = true; // Set the flag to true if a winner is found
                         break;
                     }
+                    else if (numOfTurns == 9)
+                    {
+                        Console.WriteLine("Its a draw!");
+                        break;
+                    }
                 }
                 numOfTurns++;
-                int[] userInput = GetCoordenates(turn ? 'X' : 'O');
-                gameBoard[userInput[0], userInput[1]] = turn ? 'X' : 'O';
-                turn = !turn;
-                ShowBoard();
             }
+<<<<<<< HEAD
 
             if (!winnerFound)
             {
                 Console.WriteLine("It's a draw!");
             }
+=======
+>>>>>>> 623cc86fc3f42f4cfdb0b3aee6dac27126ff0b40
         }
 
 
