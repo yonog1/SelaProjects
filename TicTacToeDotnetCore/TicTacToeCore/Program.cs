@@ -14,42 +14,27 @@ namespace TicTacToeCore
                 Console.Clear();
                 if (game.numOfTurns >= 5) // check winner from 5 turns, there cant be a winner before
                 {
-                    if (game.CheckWinner())
+                    if (game.CheckWinner()) // get out of game loop if theres a winner
                     {
                         Console.WriteLine($"Winner is {(game.turn ? 'O' : 'X')}"); // print the symbol played before current since the winner would have made the winning move before the one currently set
                         game.winnerFound = true;
-                        break;
-                    }
-                    else if (game.numOfTurns == 9)
-                    {
-                        Console.WriteLine("Its a draw!");
                         break;
                     }
                 }
 
                 int row;
                 int column;
-                // Get user input from console
-                while (true)
+
+                while (true) // Get user input from console until its valid
                 {
                     game.PrintBoard();
-                    do
-                    {
-                        Console.WriteLine("Enter the row number [1-3]:");
-                        row = (int.TryParse(Console.ReadLine(), out row) ? row : -1) - 1; // Decrease -1 to fit array indexes
-                    }
-                    while (row < 0 || row > 2);
-
-                    do
-                    {
-                        Console.WriteLine("Enter the column number [1-3]:");
-                        column = (int.TryParse(Console.ReadLine(), out column) ? column : -1) - 1; // Decrease -1 to fit array indexes
-                    }
-                    while (column < 0 || column > 2);
+                    // offset min/max boundries by +1 for user readability and decrese by -1 to fit array indexes
+                    row = GetBoundedIntInput(1, 3, "Enter the row number [1-3]:") - 1;
+                    column = GetBoundedIntInput(1, 3, "Enter the column number [1-3]:") - 1;
 
                     if (game.IsPlaceAvailable(row, column))
                     {
-                        break;
+                        break; // if input is valid the game loop will continue
                     }
                     else
                     {
@@ -60,10 +45,23 @@ namespace TicTacToeCore
                 }
                 game.AddToGrid(row, column);
             }
+
             if (!game.winnerFound)
             {
                 Console.WriteLine("Draw");
             }
+        }
+
+        static int GetBoundedIntInput(int minBoundry = int.MinValue, int maxBoundry = int.MaxValue, string prompt = "")
+        {
+            int res;
+            do
+            {
+                Console.WriteLine(prompt);
+                res = (int.TryParse(Console.ReadLine(), out res) ? res : -1);
+            }
+            while (res < minBoundry || res > maxBoundry);
+            return res;
         }
     }
 }
