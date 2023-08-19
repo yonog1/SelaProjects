@@ -12,23 +12,13 @@ namespace TicTacToeCore
             while (game.numOfTurns < 9) // cant be more than 9 turns, board is 3x3
             {
                 Console.Clear();
-                if (game.numOfTurns >= 5) // check winner from 5 turns, there cant be a winner before
-                {
-                    if (game.CheckWinner()) // get out of game loop if theres a winner
-                    {
-                        Console.WriteLine($"Winner is {(game.turn ? 'O' : 'X')}"); // print the symbol played before current since the winner would have made the winning move before the one currently set
-                        game.winnerFound = true;
-                        break;
-                    }
-                }
+                PrintBoard(game.Grid);
 
                 int row;
                 int column;
 
                 while (true) // Get user input from console until its valid
                 {
-                    game.PrintBoard();
-                    // offset min/max boundries by +1 for user readability and decrese by -1 to fit array indexes
                     row = GetBoundedIntInput(1, 3, "Enter the row number [1-3]:") - 1;
                     column = GetBoundedIntInput(1, 3, "Enter the column number [1-3]:") - 1;
 
@@ -38,18 +28,26 @@ namespace TicTacToeCore
                     }
                     else
                     {
-                        Console.WriteLine($"This position ({row + 1},{column + 1}) is already taken, please choose another one. Press any key to continue:");
+                        Console.WriteLine($"This position ({row + 1},{column + 1}) is already taken, please choose another one.\nPress any key to continue:");
                         Console.ReadKey();
                         Console.Clear();
+                        PrintBoard(game.Grid);
                     }
                 }
                 game.AddToGrid(row, column);
+
+                if (game.CheckWinner()) // check winner after each move
+                {
+                    Console.WriteLine($"Winner is {(game.turn ? 'O' : 'X')}");
+                    break;
+                }
             }
 
-            if (!game.winnerFound)
+            if (game.numOfTurns == 9 && !game.CheckWinner())
             {
                 Console.WriteLine("Draw");
             }
+
         }
 
         static int GetBoundedIntInput(int minBoundry = int.MinValue, int maxBoundry = int.MaxValue, string prompt = "")
@@ -63,5 +61,18 @@ namespace TicTacToeCore
             while (res < minBoundry || res > maxBoundry);
             return res;
         }
+
+        static void PrintBoard(char[,] Grid)
+        {
+            for (int i = 0; i < Grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < Grid.GetLength(1); j++)
+                {
+                    Console.Write($" {Grid[i, j]} ");
+                }
+                Console.WriteLine();
+            }
+        }
+
     }
 }

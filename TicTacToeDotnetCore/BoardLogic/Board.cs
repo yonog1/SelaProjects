@@ -2,21 +2,26 @@
 {
     public class Board
     {
-        private char[,] Grid { get; set; } = { { '.', '.', '.' }, { '.', '.', '.' }, { '.', '.', '.' } };
-        public short numOfTurns { get; private set; } = 0;
-        public bool turn { get; private set; } = true;
-        public bool winnerFound { get; set; } = false;
+        public char[,] Grid { get; private set; }
+        public short numOfTurns;
+        public bool turn;
+        public bool winnerFound;
+
         public Board()
         {
+            Grid = new char[3, 3] { { '.', '.', '.' }, { '.', '.', '.' }, { '.', '.', '.' } };
+            numOfTurns = 0;
+            turn = true;
+            winnerFound = false;
         }
 
-        public void PrintBoard()
+        public void PrintBoard(char[,] Grid)
         {
             for (int i = 0; i < Grid.GetLength(0); i++)
             {
                 for (int j = 0; j < Grid.GetLength(1); j++)
                 {
-                    Console.Write($" {Grid[i, j]} ");
+                    Console.Write($" {Grid[j, i]} ");
                 }
                 Console.WriteLine();
             }
