@@ -36,14 +36,17 @@ namespace WinFormsGUI
 
                 if (game.IsPlaceAvailable(x, y))
                 {
-                    game.AddToGrid(x, y);
-                    clickedButton.Text = game.turn ? "O" : "X";
-
-                    if (game.numOfTurns > 5)
+                    if (!game.winnerFound)
+                    {
+                        game.AddToGrid(x, y);
+                        clickedButton.Text = game.turn ? "O" : "X";
+                    }
+                    if (game.numOfTurns >= 5)
                     {
                         if (game.CheckWinner())
                         {
-                            MessageBox.Show($"Winner is {(game.turn ? "O" : "X")}");
+                            MessageBox.Show($"Winner is {(game.turn ? "O" : "X")}!\nClick \"NewGame\" to reset the board.");
+                            game.winnerFound = true;
                         }
                         else if (game.numOfTurns == 9 && game.CheckWinner() == false)
                         {

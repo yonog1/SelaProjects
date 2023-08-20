@@ -167,7 +167,9 @@
             ClientSize = new Size(542, 793);
             Controls.Add(button10);
             Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(3, 4, 3, 4);
+            MaximizeBox = false;
             Name = "Form1";
             Text = "Form1";
             panel1.ResumeLayout(false);
