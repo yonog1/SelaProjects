@@ -147,7 +147,7 @@
             button10.TabIndex = 1;
             button10.Text = "New Game";
             button10.UseVisualStyleBackColor = true;
-            button10.Click += button10_Click;
+            button10.Click += NewGame;
             // 
             // Form1
             // 

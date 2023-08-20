@@ -14,6 +14,7 @@ namespace WinFormsGUI
             for (int i = 0; i < buttons.Length; i++)
             {
                 buttons[i].Click += HandleButtonClicked;
+                buttons[i].Text = "";
                 buttons[i].Tag = i;
             }
         }
@@ -53,9 +54,15 @@ namespace WinFormsGUI
 
         }
 
-        private void button10_Click(object sender, EventArgs e)
+        private void NewGame(object sender, EventArgs e)
         {
-
+            game = new Board();
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].Text = "";
+            }
+            Console.Clear();
+            game.PrintBoard(game.Grid);
         }
     }
 }
