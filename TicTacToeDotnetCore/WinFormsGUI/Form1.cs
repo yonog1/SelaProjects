@@ -8,6 +8,10 @@ namespace WinFormsGUI
         private readonly Button[] buttons;
         public Form1()
         {
+            if (game.winnerFound)
+            {
+                MessageBox.Show($"{(!game.turn ? "O" : "X")}");
+            }
             InitializeComponent();
             game = new Board();
             buttons = new Button[] { button1, button2, button3, button4, button5, button6, button7, button8, button9 };
@@ -29,29 +33,34 @@ namespace WinFormsGUI
                 int x = buttonIndex % 3;   // column index (0, 1, or 2)
                 int y = buttonIndex / 3;   // row index (0, 1, or 2)
 
-                char cellContent = game.Grid[x, y];
 
                 if (game.IsPlaceAvailable(x, y))
                 {
                     game.AddToGrid(x, y);
                     clickedButton.Text = game.turn ? "O" : "X";
+
+                    if (game.numOfTurns > 5)
+                    {
+                        if (game.CheckWinner())
+                        {
+                            MessageBox.Show($"Winner is {(game.turn ? "O" : "X")}");
+                        }
+                        else if (game.numOfTurns == 9 && game.CheckWinner() == false)
+                        {
+                            MessageBox.Show("Draw");
+                        }
+                    }
                 }
                 else
                 {
                     MessageBox.Show($"This Slot is already taken by {(game.Grid[x, y] == 'X' ? 'X' : 'O')}");
                 }
-                Console.Clear();
-                game.PrintBoard(game.Grid);
+
             }
             else
             {
                 MessageBox.Show("Error has ocurred");
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void NewGame(object sender, EventArgs e)
@@ -61,8 +70,6 @@ namespace WinFormsGUI
             {
                 buttons[i].Text = "";
             }
-            Console.Clear();
-            game.PrintBoard(game.Grid);
         }
     }
 }
