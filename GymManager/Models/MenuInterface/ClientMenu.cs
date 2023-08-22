@@ -9,7 +9,7 @@ namespace GymManager.Models.MenuInterface
 
             Console.WriteLine("Clients menu:");
             string input = "";
-            while (true)
+            while (input != "0")
             {
                 switch (input)
                 {
@@ -30,7 +30,7 @@ namespace GymManager.Models.MenuInterface
                         break;
 
                 }
-                Console.ReadLine();
+                input = Console.ReadLine();
             }
 
         }
