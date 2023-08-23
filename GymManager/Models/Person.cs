@@ -154,7 +154,7 @@ namespace GymManager.Models
                     Console.WriteLine("Please enter address:");
                     input = Console.ReadLine();
                 }
-                while (input.Length > 0);
+                while (input.Length < 0);
                 value = input;
                 address = value;
             }
