@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GymManager.Models.Validation;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace GymManager.Models.MenuInterface
 {
@@ -8,9 +12,9 @@ namespace GymManager.Models.MenuInterface
         {
             string input = "";  // Initialize input variable here
 
-            Console.WriteLine("Clients menu:");
             while (input != "0")
             {
+                Console.WriteLine("Clients menu:");
                 Console.WriteLine("1 - Add Client");
                 Console.WriteLine("2 - Edit Client");
                 Console.WriteLine("3 - Delete Client");
@@ -25,7 +29,7 @@ namespace GymManager.Models.MenuInterface
                         AddClient();
                         break;
                     case "2":
-                        EditClient(1);
+                        EditClient();
                         break;
                     case "3":
                         DeleteClient();
@@ -34,8 +38,7 @@ namespace GymManager.Models.MenuInterface
                         ViewClientList();
                         break;
                     case "0":
-                        MainMenu.Menu();
-                        break;
+                        return;
                     default:
                         Console.WriteLine("Invalid input. Please enter a valid option.");
                         break;
@@ -53,33 +56,70 @@ namespace GymManager.Models.MenuInterface
             throw new NotImplementedException();
         }
 
-        private static void EditClient(int clientId)
+        private static void EditClient() // WIP! NOT READY
         {
-            //Load object's json file and change property value by key (user input)
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine("Enter the client ID you want to edit:");
+            string clientId = Console.ReadLine();
+            string clientDirectory = Path.Combine("Clients", clientId);
+            string clientFilePath = Path.Combine(clientDirectory, "client.json");
+
+            if (!File.Exists(clientFilePath))
+            {
+                Console.WriteLine("Client not found.");
+                return;
+            }
+
+            string json = File.ReadAllText(clientFilePath);
+            Dictionary<string, object> client = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+
+            Console.WriteLine("Current client details:");
+            foreach (var item in client)
+            {
+                Console.WriteLine($"{item.Key} - {item.Value}");
+            }
+
+            Console.WriteLine("enter property to change");
+            string input = Console.ReadLine();
+
+            if (client.ContainsKey(input))
+            {
+                client[input] = Console.ReadLine();
+            }
+
+            // Serialize the updated client object and write back to the JSON file
+            string updatedJson = JsonConvert.SerializeObject(client, Formatting.Indented);
+            File.WriteAllText(clientFilePath, updatedJson);
+
+            Console.WriteLine("Client details updated successfully.");
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
         }
+
+
+
+
 
         private static void AddClient()
         {
             Client client = new Client();
-            client.FirstName = Console.ReadLine();
-            client.LastName = Console.ReadLine();
+            client.Id = ValidationClass.ValidateId();
+            client.FirstName = ValidationClass.ValidateName("Please enter First name (only letters):");
+            client.LastName = ValidationClass.ValidateName("Please enter Lastname (only letters):");
 
-            char genderInput = (char)Console.Read();
-            client.Gender = genderInput;
+            client.Gender = ValidationClass.ValidateGender(); ;
 
-            client.BirthDate = Console.ReadLine();
-            client.City = Console.ReadLine();
-            client.Address = Console.ReadLine();
-            client.PhoneNumber = Console.ReadLine();
-            client.Email = Console.ReadLine();
-            double h;
-            double.TryParse(Console.ReadLine(), out h);
-            client.Height = h;
-            double w;
-            double.TryParse(Console.ReadLine(), out w);
-            client.Weight = w;
+            client.BirthDate = ValidationClass.ValidateBirthDate(); ;
+            client.City = ValidationClass.ValidateCity(); ;
+            client.Address = ValidationClass.ValidateAddress();
+            client.PhoneNumber = ValidationClass.ValidatePhoneNumber(); ;
+            client.Email = ValidationClass.ValidateEmail();
+
+            client.Height = ValidationClass.ValidateHeight(); ;
+            client.Weight = ValidationClass.ValidateWeight(); ;
             Console.WriteLine("bmi is: " + client.CalculateBMI());
+
+            FileHandler.CreateClientFile(client);
 
             //Create json file with serialized object data
         }

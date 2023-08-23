@@ -11,14 +11,6 @@ namespace GymManager.Models
             get { return height; }
             set
             {
-                double input;
-                do
-                {
-                    Console.WriteLine("Please enter height:");
-                    input = double.TryParse(Console.ReadLine(), out input) ? input : -1;
-
-                } while (input < 0);
-                value = input;
                 height = value;
             }
         }
@@ -30,14 +22,6 @@ namespace GymManager.Models
             get { return weight; }
             set
             {
-                double input;
-                do
-                {
-                    Console.WriteLine("Please enter weight:");
-                    input = double.TryParse(Console.ReadLine(), out input) ? input : -1;
-
-                } while (input < 0);
-                value = input;
                 weight = value;
             }
         }
