@@ -1,4 +1,7 @@
-﻿namespace GymManager.Models
+﻿using System;
+using System.Reflection;
+
+namespace GymManager.Models
 {
     internal class Person
     {
@@ -103,6 +106,16 @@
             }
         }
 
+        public void PrintAllProperties()
+        {
+            Type type = this.GetType();
+            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
+            Console.WriteLine("Properties:");
+            foreach (PropertyInfo property in properties)
+            {
+                Console.WriteLine($"{property.Name}: {property.GetValue(this)}");
+            }
+        }
     }
 }

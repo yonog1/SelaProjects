@@ -1,8 +1,8 @@
 ﻿using GymManager.Models.Validation;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace GymManager.Models.MenuInterface
 {
@@ -48,15 +48,57 @@ namespace GymManager.Models.MenuInterface
 
         private static void ViewClientList()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            string clientsFolderPath = "Clients";
+            if (!Directory.Exists(clientsFolderPath))
+            {
+                Console.WriteLine("No clients found.");
+                return;
+            }
+
+            Console.WriteLine("List of existing clients:");
+            string[] clientDirectories = Directory.GetDirectories(clientsFolderPath);
+
+            foreach (string clientDirectory in clientDirectories)
+            {
+                string clientId = Path.GetFileName(clientDirectory);
+                Console.WriteLine(clientId);
+            }
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         private static void DeleteClient()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine("Enter the client ID you want to delete:");
+            string clientId = ValidationClass.ValidateId();
+            string clientDirectoryPath = Path.Combine("Clients", clientId);
+            string clientFilePath = Path.Combine(clientDirectoryPath, "client.json");
+            Console.WriteLine(clientId);
+
+            //string clientFilePath = $"Clients/{clientId}";
+
+            if (!File.Exists(clientFilePath))
+            {
+                Console.WriteLine("Client not found.");
+                return;
+            }
+            string json = File.ReadAllText(clientFilePath);
+            JObject jsonClient = JObject.Parse(json);
+
+            // Set IsActive property to false
+            jsonClient["IsActive"] = false;
+
+            // Write the updated JSON back to the file
+            File.WriteAllText(clientFilePath, jsonClient.ToString());
+
+            Console.WriteLine("Client deleted successfully.");
+
         }
 
-        private static void EditClient() // WIP! NOT READY
+        private static void EditClient()
         {
             Console.Clear();
             Console.WriteLine("Enter the client ID you want to edit:");
@@ -70,38 +112,96 @@ namespace GymManager.Models.MenuInterface
                 return;
             }
 
-            string json = File.ReadAllText(clientFilePath);
-            Dictionary<string, object> client = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            string text = File.ReadAllText(clientFilePath);
+            JObject jsonClient = JObject.Parse(text);
 
             Console.WriteLine("Current client details:");
-            foreach (var item in client)
+            foreach (var item in jsonClient)
             {
                 Console.WriteLine($"{item.Key} - {item.Value}");
             }
 
-            Console.WriteLine("enter property to change");
-            string input = Console.ReadLine();
+            Console.WriteLine("Enter the property to change:");
+            string inputProperty = Console.ReadLine();
 
-            if (client.ContainsKey(input))
+            // Find the property with case-insensitive comparison
+            string propertyName = jsonClient.Properties()
+                .FirstOrDefault(prop => prop.Name.Equals(inputProperty, StringComparison.OrdinalIgnoreCase))?.Name;
+
+            if (propertyName != null)
             {
-                client[input] = Console.ReadLine();
+                // Validate and set the new value
+                switch (propertyName)
+                {
+                    case "Id":
+                        string newValue = ValidationClass.ValidateId();
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "FirstName":
+                        newValue = ValidationClass.ValidateName("Please enter First name (only letters):");
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "LastName":
+                        newValue = ValidationClass.ValidateName("Please enter Last name (only letters):");
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "Gender":
+                        char genderValue = ValidationClass.ValidateGender();
+                        jsonClient[propertyName] = genderValue.ToString(); ;
+                        break;
+                    case "BirthDate":
+                        newValue = ValidationClass.ValidateBirthDate();
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "City":
+                        newValue = ValidationClass.ValidateCity();
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "Address":
+                        newValue = ValidationClass.ValidateAddress();
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "PhoneNumber":
+                        newValue = ValidationClass.ValidatePhoneNumber();
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "Email":
+                        newValue = ValidationClass.ValidateEmail();
+                        jsonClient[propertyName] = newValue;
+                        break;
+                    case "Height":
+                        double heightValue = ValidationClass.ValidateHeight();
+                        jsonClient[propertyName] = heightValue;
+                        break;
+                    case "Weight":
+                        double weightValue = ValidationClass.ValidateWeight();
+                        jsonClient[propertyName] = weightValue;
+                        break;
+                    default:
+                        Console.WriteLine($"Property {propertyName} is not editable.");
+                        break;
+                }
+
+                // Serialize the updated JSON and write back to the file
+                string updatedJson = jsonClient.ToString();
+                File.WriteAllText(clientFilePath, updatedJson);
+
+                Console.WriteLine("Client details updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Property {inputProperty} not found.");
             }
 
-            // Serialize the updated client object and write back to the JSON file
-            string updatedJson = JsonConvert.SerializeObject(client, Formatting.Indented);
-            File.WriteAllText(clientFilePath, updatedJson);
-
-            Console.WriteLine("Client details updated successfully.");
             Console.WriteLine("Press any key to continue:");
             Console.ReadKey();
+            Console.Clear();
         }
-
-
-
 
 
         private static void AddClient()
         {
+            Console.Clear();
             Client client = new Client();
             client.Id = ValidationClass.ValidateId();
             client.FirstName = ValidationClass.ValidateName("Please enter First name (only letters):");
@@ -117,9 +217,14 @@ namespace GymManager.Models.MenuInterface
 
             client.Height = ValidationClass.ValidateHeight(); ;
             client.Weight = ValidationClass.ValidateWeight(); ;
-            Console.WriteLine("bmi is: " + client.CalculateBMI());
+            Console.WriteLine("\nbmi is: " + client.CalculateBMI());
 
             FileHandler.CreateClientFile(client);
+
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
+            Console.Clear();
+
 
             //Create json file with serialized object data
         }
