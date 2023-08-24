@@ -104,7 +104,7 @@ namespace GymManager.Models.MenuInterface
             Console.WriteLine("Enter the client ID you want to edit:");
             string clientId = Console.ReadLine();
             string clientDirectory = Path.Combine("Clients", clientId);
-            string clientFilePath = Path.Combine(clientDirectory, "client.json");
+            string clientFilePath = Path.Combine(clientDirectory, "coach.json");
 
             if (!File.Exists(clientFilePath))
             {

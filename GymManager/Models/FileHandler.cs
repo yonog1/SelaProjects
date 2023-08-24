@@ -30,7 +30,7 @@ namespace GymManager.Models
 
             // maps every prop name and value of a class' instance to json key-value pairs
             string serializedClient = JsonConvert.SerializeObject(coach);
-            string clientFilePath = Path.Combine(clientDirectory, "client.json");
+            string clientFilePath = Path.Combine(clientDirectory, "coach.json");
             // write the json data to the file
             File.AppendAllText(clientFilePath, serializedClient + Environment.NewLine);
         }

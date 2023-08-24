@@ -24,6 +24,7 @@ namespace GymManager.Models.MenuInterface
                         break;
 
                     case "2":
+                        CoachMenu.Menu();
                         break;
                 }
             }

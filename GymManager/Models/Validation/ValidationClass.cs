@@ -95,7 +95,7 @@ namespace GymManager.Models.Validation
             {
                 Console.WriteLine("Please enter phone number:");
                 input = Console.ReadLine();
-            } while (!input.All(char.IsDigit) || input[0] == '0');
+            } while (!input.All(char.IsDigit) || input[0] != '0');
             return input;
         }
 
@@ -127,6 +127,44 @@ namespace GymManager.Models.Validation
             {
                 Console.WriteLine("Please enter weight:");
             } while (!double.TryParse(Console.ReadLine(), out input) || input < 0);
+            return input;
+        }
+
+        public static int ValidateBankBranch()
+        {
+            int input;
+            do
+            {
+                Console.WriteLine("Enter your account's branch:");
+                input = int.TryParse(Console.ReadLine(), out input) ? input : -1;
+            }
+            while (input > 1000 || input < 0);
+
+            return input;
+        }
+
+        public static int ValidateBankAccountNumber()
+        {
+            int input;
+            do
+            {
+                Console.WriteLine("Enter your account's number:");
+                input = int.TryParse(Console.ReadLine(), out input) ? input : -1;
+            }
+            while (input > 1000000 || input < 0);
+
+            return input;
+        }
+
+        public static string ValidatePorfession()
+        {
+            string input;
+            do
+            {
+                Console.WriteLine("Please enter profession:");
+                input = Console.ReadLine();
+            } while (input.Length < 4);
+
             return input;
         }
     }
