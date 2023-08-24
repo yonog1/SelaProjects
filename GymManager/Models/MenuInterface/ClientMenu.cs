@@ -14,6 +14,7 @@ namespace GymManager.Models.MenuInterface
 
             while (input != "0")
             {
+                Console.Clear();
                 Console.WriteLine("Clients menu:");
                 Console.WriteLine("1 - Add Client");
                 Console.WriteLine("2 - Edit Client");
@@ -53,6 +54,9 @@ namespace GymManager.Models.MenuInterface
             if (!Directory.Exists(clientsFolderPath))
             {
                 Console.WriteLine("No clients found.");
+                Console.WriteLine("Press any key to continue:");
+                Console.ReadKey();
+                Console.Clear();
                 return;
             }
 
@@ -103,12 +107,15 @@ namespace GymManager.Models.MenuInterface
             Console.Clear();
             Console.WriteLine("Enter the client ID you want to edit:");
             string clientId = Console.ReadLine();
-            string clientDirectory = Path.Combine("Clients", clientId);
-            string clientFilePath = Path.Combine(clientDirectory, "coach.json");
+            string clientDirectory = Path.Combine("Clients/", clientId);
+            string clientFilePath = Path.Combine(clientDirectory, "client.json");
 
             if (!File.Exists(clientFilePath))
             {
                 Console.WriteLine("Client not found.");
+                Console.WriteLine("Press any key to continue:");
+                Console.ReadKey();
+                Console.Clear();
                 return;
             }
 

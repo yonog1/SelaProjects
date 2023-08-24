@@ -14,6 +14,7 @@ namespace GymManager.Models.MenuInterface
 
             while (input != "0")
             {
+                Console.Clear();
                 Console.WriteLine("Coaches menu:");
                 Console.WriteLine("1 - Add Coach");
                 Console.WriteLine("2 - Edit Coach");
@@ -49,10 +50,13 @@ namespace GymManager.Models.MenuInterface
         private static void ViewCoachList()
         {
             Console.Clear();
-            string CoachesFolderPath = "Coaches";
+            string CoachesFolderPath = "Coaches/";
             if (!Directory.Exists(CoachesFolderPath))
             {
                 Console.WriteLine("No Coaches found.");
+                Console.WriteLine("Press any key to continue:");
+                Console.ReadKey();
+                Console.Clear();
                 return;
             }
 
@@ -109,6 +113,9 @@ namespace GymManager.Models.MenuInterface
             if (!File.Exists(CoachFilePath))
             {
                 Console.WriteLine("Coach not found.");
+                Console.WriteLine("Press any key to continue:");
+                Console.ReadKey();
+                Console.Clear();
                 return;
             }
 

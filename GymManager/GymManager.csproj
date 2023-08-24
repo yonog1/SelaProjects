@@ -49,12 +49,12 @@
     <Compile Include="Models\BankDetails.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Coach.cs" />
-    <Compile Include="Models\FileHandler.cs" />
+    <Compile Include="Models\Utility\FileHandler.cs" />
     <Compile Include="Models\MenuInterface\ClientMenu.cs" />
     <Compile Include="Models\MenuInterface\CoachMenu.cs" />
     <Compile Include="Models\MenuInterface\MainMenu.cs" />
     <Compile Include="Models\Person.cs" />
-    <Compile Include="Models\Validation\ValidationClass.cs" />
+    <Compile Include="Models\Utility\ValidationClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

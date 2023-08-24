@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Ignore everything inside the .vs/ folder
+.vs/*
+
 # User-specific files
 *.rsuser
 *.suo
@@ -475,3 +478,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+.vs/SelaProjects/v17/.wsuo
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
