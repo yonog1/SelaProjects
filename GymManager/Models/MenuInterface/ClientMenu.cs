@@ -128,8 +128,20 @@ namespace GymManager.Models.MenuInterface
                 Console.WriteLine($"{item.Key} - {item.Value}");
             }
 
-            Console.WriteLine("Enter the property to change:");
+            Console.WriteLine("\nEnter the property to change:\n(type \"Cancel\" to cancel operation)");
             string inputProperty = Console.ReadLine();
+
+            // Convert inputProperty to lowercase for case-insensitive comparison
+            inputProperty = inputProperty.ToLower();
+
+            if (inputProperty == "cancel")
+            {
+                Console.WriteLine("Operation cancelled\n");
+                Console.WriteLine("Press any key to continue:");
+                Console.ReadKey();
+                Console.Clear();
+                return;
+            }
 
             // Find the property with case-insensitive comparison
             string propertyName = jsonClient.Properties()
@@ -208,22 +220,25 @@ namespace GymManager.Models.MenuInterface
 
         private static void AddClient()
         {
+            // Call validators to set values for new client
             Console.Clear();
-            Client client = new Client();
-            client.Id = ValidationClass.ValidateId();
-            client.FirstName = ValidationClass.ValidateName("Please enter First name (only letters):");
-            client.LastName = ValidationClass.ValidateName("Please enter Lastname (only letters):");
+            Client client = new Client
+            {
+                Id = ValidationClass.ValidateId(),
+                FirstName = ValidationClass.ValidateName("Please enter First name (only letters):"),
+                LastName = ValidationClass.ValidateName("Please enter Lastname (only letters):"),
 
-            client.Gender = ValidationClass.ValidateGender(); ;
+                Gender = ValidationClass.ValidateGender(),
+                BirthDate = ValidationClass.ValidateBirthDate(),
+                City = ValidationClass.ValidateCity(),
+                Address = ValidationClass.ValidateAddress(),
+                PhoneNumber = ValidationClass.ValidatePhoneNumber(),
+                Email = ValidationClass.ValidateEmail(),
 
-            client.BirthDate = ValidationClass.ValidateBirthDate(); ;
-            client.City = ValidationClass.ValidateCity(); ;
-            client.Address = ValidationClass.ValidateAddress();
-            client.PhoneNumber = ValidationClass.ValidatePhoneNumber(); ;
-            client.Email = ValidationClass.ValidateEmail();
+                Height = ValidationClass.ValidateHeight(),
+                Weight = ValidationClass.ValidateWeight(),
+            };
 
-            client.Height = ValidationClass.ValidateHeight(); ;
-            client.Weight = ValidationClass.ValidateWeight(); ;
             Console.WriteLine("\nbmi is: " + client.CalculateBMI());
 
             FileHandler.CreateClientFile(client);

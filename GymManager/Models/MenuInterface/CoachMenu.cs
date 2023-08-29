@@ -89,7 +89,9 @@ namespace GymManager.Models.MenuInterface
                 Console.WriteLine("Coach not found.");
                 return;
             }
+            // Read file contets as text
             string json = File.ReadAllText(CoachFilePath);
+            // Format the contents to json
             JObject jsonCoach = JObject.Parse(json);
 
             // Set IsActive property to false
@@ -128,8 +130,21 @@ namespace GymManager.Models.MenuInterface
                 Console.WriteLine($"{item.Key} - {item.Value}");
             }
 
-            Console.WriteLine("Enter the property to change:");
+            Console.WriteLine();
+            Console.WriteLine("Enter the property to change:\n(type \"Cancel\" to cancel operation)");
             string inputProperty = Console.ReadLine();
+
+            // Convert inputProperty to lowercase for case-insensitive comparison
+            inputProperty = inputProperty.ToLower();
+
+            if (inputProperty == "cancel")
+            {
+                Console.WriteLine("Operation cancelled\n");
+                Console.WriteLine("Press any key to continue:");
+                Console.ReadKey();
+                Console.Clear();
+                return;
+            }
 
             // Find the property with case-insensitive comparison
             string propertyName = jsonCoach.Properties()
@@ -137,7 +152,7 @@ namespace GymManager.Models.MenuInterface
 
             if (propertyName != null)
             {
-                // Validate and set the new value
+                // Validate and set the new value, calling the appropriate validation function.
                 switch (propertyName)
                 {
                     case "Id":
@@ -208,23 +223,24 @@ namespace GymManager.Models.MenuInterface
 
         private static void AddCoach()
         {
+            // Call validators to set values for new coach
             Console.Clear();
-            Coach coach = new Coach();
-            coach.Id = ValidationClass.ValidateId();
-            coach.FirstName = ValidationClass.ValidateName("Please enter First name (only letters):");
-            coach.LastName = ValidationClass.ValidateName("Please enter Lastname (only letters):");
+            Coach coach = new Coach
+            {
+                Id = ValidationClass.ValidateId(),
+                FirstName = ValidationClass.ValidateName("Please enter First name (only letters):"),
+                LastName = ValidationClass.ValidateName("Please enter Lastname (only letters):"),
 
-            coach.Gender = ValidationClass.ValidateGender(); ;
+                Gender = ValidationClass.ValidateGender(),
+                BirthDate = ValidationClass.ValidateBirthDate(),
+                City = ValidationClass.ValidateCity(),
+                Address = ValidationClass.ValidateAddress(),
+                PhoneNumber = ValidationClass.ValidatePhoneNumber(),
+                Email = ValidationClass.ValidateEmail(),
 
-            coach.BirthDate = ValidationClass.ValidateBirthDate(); ;
-            coach.City = ValidationClass.ValidateCity(); ;
-            coach.Address = ValidationClass.ValidateAddress();
-            coach.PhoneNumber = ValidationClass.ValidatePhoneNumber(); ;
-            coach.Email = ValidationClass.ValidateEmail();
-
-            coach.Profession = ValidationClass.ValidatePorfession();
-
-            coach.bankDetails = new BankDetails();
+                Profession = ValidationClass.ValidatePorfession(),
+                bankDetails = new BankDetails(),
+            };
 
             coach.bankDetails.Name = ValidationClass.ValidateName("Enter your bank's name:");
 
