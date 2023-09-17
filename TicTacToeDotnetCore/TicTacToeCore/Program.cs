@@ -38,6 +38,8 @@ namespace TicTacToeCore
 
                 if (game.CheckWinner()) // check winner after each move
                 {
+                    Console.Clear();
+                    PrintBoard(game.Grid);
                     Console.WriteLine($"Winner is {(game.turn ? 'O' : 'X')}");
                     break;
                 }
