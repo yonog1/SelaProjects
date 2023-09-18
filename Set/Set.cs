@@ -92,7 +92,10 @@ namespace Set
         {
             if (obj == null)
                 return false;
-            if (!(obj is Set)) return false;
+
+            if (!(obj is Set))
+                return false;
+
             Set other = (Set)obj;
             for (int i = 0; i < other.set.Length; i++)
             {

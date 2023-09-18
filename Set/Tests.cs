@@ -65,9 +65,13 @@ namespace Set
             Console.WriteLine("Enter 3 numbers (0-1000): ");
             for (int i = 0; i < userInput.Length; i++)
             {
-                Console.WriteLine($"Num {i + 1}: ");
-                string stringInput = Console.ReadLine();
-                int.TryParse(stringInput, out userInput[i]);
+                do
+                {
+                    Console.WriteLine($"Num {i + 1}: ");
+                    string stringInput = Console.ReadLine();
+                    userInput[i] = int.TryParse(stringInput, out userInput[i]) ? userInput[i] : -1;
+                }
+                while (userInput[i] < 0);
             }
 
             Set userInputSet = new Set(userInput);
@@ -90,6 +94,7 @@ namespace Set
             Console.WriteLine(set2);
 
             set1.Intersection(set2);
+            Console.WriteLine("Intersection of Set 3 and Set 4: ");
             Console.WriteLine(set1);
         }
 
@@ -108,11 +113,11 @@ namespace Set
             Console.WriteLine(set2);
 
             set1.Union(set2);
-            Console.WriteLine("Intersection of Set 1 and Set 2: ");
+            Console.WriteLine("Union of Set 1 and Set 2: ");
             Console.WriteLine(set1);
         }
 
-        static void PopulateSet(Set set)
+        private static void PopulateSet(Set set)
         {
             //Random rnd = new Random();
             for (int i = 0; i < 12; i++)
