@@ -10,6 +10,7 @@ namespace WpfGUI
         //init new game?
         Board game = new Board();
         private readonly Button[] buttons;
+        private bool[] clicked = new bool[9];
 
         public MainWindow()
         {
@@ -35,6 +36,9 @@ namespace WpfGUI
             if (sender != null)
             {
                 Button clickedButton = (Button)sender;
+                int idx = int.Parse(clickedButton.Tag.ToString());
+                if (clicked[idx]) { return; }
+                clicked[idx] = true;
                 int buttonIndex = (int)clickedButton.Tag;
                 int x = buttonIndex % 3;   // column index (0, 1, or 2)
                 int y = buttonIndex / 3;   // row index (0, 1, or 2)
@@ -70,17 +74,6 @@ namespace WpfGUI
             {
                 MessageBox.Show("Error has ocurred");
             }
-            /*
-            Button button = sender as Button;
-            if (button != null)
-            {
-                if (string.IsNullOrEmpty(button.Content as string))
-                {
-                    button.Content = turn ? "X" : "O";
-                    turn = !turn;
-                }
-            }
-             */
         }
     }
 }
