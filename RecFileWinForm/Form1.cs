@@ -108,13 +108,14 @@ namespace File
             FileInfo[] files = d.GetFiles("*.*");
             foreach (FileInfo file in files)
             {
+                int depth = node.Level;
                 String fileName = file.FullName;
                 String fileSize = file.Length.ToString() + " Bytes";
                 String fileExtension = file.Extension;
                 String fileCreated = file.LastWriteTime.ToString();
 
-                node.Nodes.Add(string.Format("{0} {1} {2} {3}", fileName, fileSize,
-                                    fileExtension, fileCreated));
+                node.Nodes.Add(string.Format("{0} {1} {2} Depth - {3} {4}", fileName, fileSize,
+                                    fileExtension, depth, fileCreated));
             }
 
             // Add all subdirectories to the treeview
