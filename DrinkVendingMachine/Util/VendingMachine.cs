@@ -8,12 +8,13 @@ namespace DrinkVendingMachine
     internal class VendingMachine
     {
         private List<Beverage> beveragesList = new List<Beverage>();
-        private static int count = 0;
+        public int Count { get; private set; }
+
         private const int LIMIT = 16;
 
         public VendingMachine()
         {
-            count++;
+            Count++;
         }
 
         public Beverage this[string name]
@@ -56,18 +57,18 @@ namespace DrinkVendingMachine
             return sb.ToString();
         }
 
-        public void Prepare(uint id)
+        public string Prepare(int id)
         {
             Beverage selectedBeverage = beveragesList.FirstOrDefault(beverage => beverage.Id == id);
             if (selectedBeverage == null)
                 throw new InvalidOperationException($"Beverage with ID {id} was not found in the list.");
 
-            selectedBeverage.Prepare();
+            return selectedBeverage.Prepare();
         }
 
         public void AddBeverage(Beverage beverage)
         {
-            if (count > LIMIT)
+            if (Count > LIMIT)
                 throw new OverflowException($"Cant add ${beverage.Name} because the machine's maximum capacity is reached.\nPlease remove an item before trying to add another one.");
             beveragesList.Add(beverage);
         }

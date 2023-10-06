@@ -14,17 +14,37 @@ namespace DrinkVendingMachine.Util
             vendingMachine.AddBeverage(tea);
 
 
-            string input = "";
-            while (input != "0")
+            while (true)
             {
-
-
                 Console.WriteLine("Main Menu");
                 Console.WriteLine("---------");
-                Console.WriteLine("Enter a number to prepare a beverage from the list:\n");
                 Console.WriteLine(vendingMachine.ListBeverages());
 
-                input = Console.ReadLine();
+                Console.WriteLine("Enter a number to prepare a beverage from the list:\nEnter '0' to exit\n");
+
+                string input = Console.ReadLine();
+
+                if (input == "0")
+                    break;
+
+                int intInput = int.TryParse(input, out intInput) ? intInput : -1;
+
+                try
+                {
+                    Console.Clear();
+                    Console.WriteLine(vendingMachine.Prepare(intInput));
+                    Console.WriteLine("Your beverage is ready!\nPress any key to continue...\n");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                catch (InvalidOperationException e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Press any key to continue...\n");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+
             }
         }
     }

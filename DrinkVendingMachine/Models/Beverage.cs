@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DrinkVendingMachine
 {
@@ -7,6 +7,15 @@ namespace DrinkVendingMachine
     {
         public Beverage(string name, double price, List<string> ingredients)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty or null.", nameof(name));
+
+            if (price <= 0)
+                throw new ArgumentException("Price must be greater than zero.", nameof(price));
+
+            if (ingredients == null || ingredients.Count == 0)
+                throw new ArgumentException("Ingredients list must have at least one element.", nameof(ingredients));
+
             Name = name;
             Price = price;
             Ingredients = ingredients;
@@ -14,7 +23,7 @@ namespace DrinkVendingMachine
             id++;
         }
 
-        private static int id = 0;
+        private static int id = 1;
 
         public int Id { get; }
         public string Name { get; }
@@ -23,9 +32,7 @@ namespace DrinkVendingMachine
 
         public string Prepare()
         {
-            StringBuilder sb = new StringBuilder();
-            AddIngredients();
-            return sb.ToString();
+            return $"{AddIngredients()}\n{AddHotWater()}\n{Stir()}";
         }
 
         public abstract string AddIngredients();

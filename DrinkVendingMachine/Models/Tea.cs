@@ -19,7 +19,7 @@ namespace DrinkVendingMachine.Models
                 sb.Append($"{Ingredients[i]}, ");
             }
             sb.Remove(sb.Length - 2, 1);
-            sb.Append($"and {Ingredients[Ingredients.Count - 1]} to make ${Name}...");
+            sb.Append($"and {Ingredients[Ingredients.Count - 1]} to make {Name}...");
 
             return sb.ToString();
         }
