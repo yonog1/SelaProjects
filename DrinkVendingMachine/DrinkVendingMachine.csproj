@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Models\Beverage.cs" />
     <Compile Include="Models\Coffee.cs" />
+    <Compile Include="Models\HotChocolate.cs" />
     <Compile Include="Models\Tea.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

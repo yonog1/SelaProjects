@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DrinkVendingMachine
 {
@@ -35,7 +36,19 @@ namespace DrinkVendingMachine
             return $"{AddIngredients()}\n{AddHotWater()}\n{Stir()}";
         }
 
-        public abstract string AddIngredients();
+        public string AddIngredients()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Adding ");
+            for (int i = 0; i < Ingredients.Count - 1; i++)
+            {
+                sb.Append($"{Ingredients[i]}, ");
+            }
+            sb.Remove(sb.Length - 2, 1);
+            sb.Append($"and {Ingredients[Ingredients.Count - 1]} to make {Name}...");
+
+            return sb.ToString();
+        }
 
         public abstract string AddHotWater();
 

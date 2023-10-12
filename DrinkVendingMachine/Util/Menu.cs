@@ -10,8 +10,10 @@ namespace DrinkVendingMachine.Util
             VendingMachine vendingMachine = new VendingMachine();
             Coffee coffee = new Coffee();
             Tea tea = new Tea();
+            HotChocolate hotChocolate = new HotChocolate();
             vendingMachine.AddBeverage(coffee);
             vendingMachine.AddBeverage(tea);
+            vendingMachine.AddBeverage(hotChocolate);
 
 
             while (true)

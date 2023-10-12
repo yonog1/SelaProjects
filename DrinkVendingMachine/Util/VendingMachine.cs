@@ -7,7 +7,7 @@ namespace DrinkVendingMachine
 {
     internal class VendingMachine
     {
-        private List<Beverage> beveragesList = new List<Beverage>();
+        private readonly List<Beverage> beveragesList = new List<Beverage>();
         public int Count { get; private set; }
 
         private const int LIMIT = 16;
@@ -61,7 +61,7 @@ namespace DrinkVendingMachine
         {
             Beverage selectedBeverage = beveragesList.FirstOrDefault(beverage => beverage.Id == id);
             if (selectedBeverage == null)
-                throw new InvalidOperationException($"Beverage with ID {id} was not found in the list.");
+                throw new InvalidOperationException($"Beverage was not found in the list.");
 
             return selectedBeverage.Prepare();
         }
