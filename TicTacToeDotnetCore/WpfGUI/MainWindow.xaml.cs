@@ -1,4 +1,5 @@
 ﻿using BoardLogic;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -43,36 +44,48 @@ namespace WpfGUI
                 int x = buttonIndex % 3;   // column index (0, 1, or 2)
                 int y = buttonIndex / 3;   // row index (0, 1, or 2)
 
-
-                if (game.IsPlaceAvailable(x, y))
+                if (!game.winnerFound)
                 {
-                    if (!game.winnerFound)
-                    {
-                        game.AddToGrid(x, y);
-                        clickedButton.Content = game.turn ? "O" : "X";
-                    }
-                    if (game.numOfTurns >= 5)
-                    {
-                        if (game.CheckWinner())
-                        {
-                            MessageBox.Show($"Winner is {(game.turn ? "O" : "X")}!\nClick \"NewGame\" to reset the board.");
-                            game.winnerFound = true;
-                        }
-                        else if (game.numOfTurns == 9 && game.CheckWinner() == false)
-                        {
-                            MessageBox.Show("Draw");
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show($"This Slot is already taken by {(game.Grid[x, y] == 'X' ? 'X' : 'O')}");
+                    game.AddToGrid(x, y);
+                    clickedButton.Content = game.turn ? "O" : "X";
                 }
 
+                if (game.numOfTurns >= 5)
+                {
+                    if (game.CheckWinner())
+                    {
+                        game.winnerFound = true;
+                        var result = MessageBox.Show($"Winner is {(game.turn ? "O" : "X")}!\nClick \"Ok\" to reset the board.", "Game Over", MessageBoxButton.OKCancel);
+                        if (result == MessageBoxResult.OK)
+                        {
+                            // This is used to reset the game state on the UI thread, ensuring that it occurs after the message box is closed.
+                            Application.Current.Dispatcher.BeginInvoke((Action)ResetGame, System.Windows.Threading.DispatcherPriority.Background);
+                        }
+                    }
+                    else if (game.numOfTurns == 9 && game.CheckWinner() == false)
+                    {
+                        MessageBox.Show("Draw");
+                        Application.Current.Dispatcher.BeginInvoke((Action)ResetGame, System.Windows.Threading.DispatcherPriority.Background);
+                    }
+                }
             }
             else
             {
-                MessageBox.Show("Error has ocurred");
+                MessageBox.Show("Error has occurred");
+            }
+        }
+
+
+        private void ResetGame()
+        {
+            game = new Board();
+            foreach (var button in buttons)
+            {
+                button.Content = "";
+            }
+            for (int i = 0; i < clicked.Length; i++)
+            {
+                clicked[i] = false;
             }
         }
     }
